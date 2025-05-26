@@ -27,18 +27,11 @@ export enum MemberIdEnum {
   BASIC = 'BASIC',
 }
 
-const MemberTypesFields = {
-  id: { type: new GraphQLNonNull(MemberId) },
-  discount: { type: new GraphQLNonNull(GraphQLFloat) },
-  postsLimitPerMonth: { type: new GraphQLNonNull(GraphQLInt) },
-};
-
-export const MemberTypes = new GraphQLObjectType({
-  name: 'MemberTypes',
-  fields: MemberTypesFields,
-});
-
 export const MemberType = new GraphQLObjectType({
   name: 'MemberType',
-  fields: MemberTypesFields,
+  fields: () => ({
+    id: { type: MemberId },
+    discount: { type: new GraphQLNonNull(GraphQLFloat) },
+    postsLimitPerMonth: { type: new GraphQLNonNull(GraphQLInt) },
+  }),
 });

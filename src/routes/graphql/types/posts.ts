@@ -30,25 +30,25 @@ export type ChangePost = {
 export const PostType = new GraphQLObjectType({
   name: 'Post',
   fields: () => ({
-    id: { type: new GraphQLNonNull(UUIDType) },
-    title: { type: new GraphQLNonNull(GraphQLString) },
-    content: { type: new GraphQLNonNull(GraphQLString) },
+    id: { type: UUIDType },
+    title: { type: GraphQLString },
+    content: { type: GraphQLString },
   }),
 });
 
 export const CreatePostInput = new GraphQLInputObjectType({
-  name: 'CreatePost',
-  fields: () => ({
+  name: 'CreatePostInput',
+  fields: {
     title: { type: new GraphQLNonNull(GraphQLString) },
     content: { type: new GraphQLNonNull(GraphQLString) },
     authorId: { type: new GraphQLNonNull(UUIDType) },
-  }),
+  },
 });
 
 export const ChangePostInput = new GraphQLInputObjectType({
-  name: 'ChangePost',
-  fields: () => ({
-    title: { type: new GraphQLNonNull(GraphQLString) },
-    content: { type: new GraphQLNonNull(GraphQLString) },
-  }),
+  name: 'ChangePostInput',
+  fields: {
+    title: { type: GraphQLString },
+    content: { type: GraphQLString },
+  },
 });

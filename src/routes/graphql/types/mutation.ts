@@ -45,11 +45,8 @@ export const Mutations = new GraphQLObjectType({
       args: {
         dto: { type: new GraphQLNonNull(CreateProfileInput) },
       },
-      resolve: async (_, { dto }: CreateProfile, { prisma }: Context) => {
-        await prisma.profile.create({ data: dto });
-
-        return true;
-      },
+      resolve: async (_, { dto }: CreateProfile, { prisma }: Context) =>
+        await prisma.profile.create({ data: dto }),
     },
     createPost: {
       type: new GraphQLNonNull(PostType),

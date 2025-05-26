@@ -6,7 +6,7 @@ import {
   GraphQLObjectType,
 } from 'graphql';
 import { UUIDType } from './uuid.js';
-import { MemberTypes, Member, MemberId } from './members.js';
+import { MemberType, Member, MemberId } from './members.js';
 import { Context } from './context.js';
 import { MemberTypeId } from '../../member-types/schemas.js';
 
@@ -39,10 +39,11 @@ export const ProfileType = new GraphQLObjectType<Profile>({
   name: 'Profile',
   fields: () => ({
     id: { type: new GraphQLNonNull(UUIDType) },
+    userId: { type: new GraphQLNonNull(UUIDType) },
     isMale: { type: new GraphQLNonNull(GraphQLBoolean) },
     yearOfBirth: { type: new GraphQLNonNull(GraphQLInt) },
     memberType: {
-      type: new GraphQLNonNull(MemberTypes),
+      type: new GraphQLNonNull(MemberType),
       resolve: async ({ memberTypeId }, _, { prisma }: Context) => {
         return await prisma.memberType.findFirst({ where: { id: memberTypeId } });
       },
@@ -51,20 +52,21 @@ export const ProfileType = new GraphQLObjectType<Profile>({
 });
 
 export const CreateProfileInput = new GraphQLInputObjectType({
-  name: 'CreateProfile',
+  name: 'CreateProfileInput',
   fields: () => ({
-    isMale: { type: new GraphQLNonNull(GraphQLBoolean) },
-    yearOfBirth: { type: new GraphQLNonNull(GraphQLInt) },
-    userId: { type: new GraphQLNonNull(UUIDType) },
-    memberTypeId: { type: new GraphQLNonNull(MemberId) },
+    isMale: { type: GraphQLBoolean },
+    yearOfBirth: { type: GraphQLInt },
+    userId: { type: UUIDType },
+    memberTypeId: { type: MemberId },
   }),
 });
 
 export const ChangeProfileInput = new GraphQLInputObjectType({
-  name: 'ChangeProfile',
+  name: 'ChangeProfileInput',
   fields: () => ({
-    isMale: { type: new GraphQLNonNull(GraphQLBoolean) },
-    yearOfBirth: { type: new GraphQLNonNull(GraphQLInt) },
-    memberTypeId: { type: new GraphQLNonNull(MemberId) },
+    isMale: { type: GraphQLBoolean },
+    yearOfBirth: { type: GraphQLInt },
+    memberTypeId: { type: MemberId },
+    userId: { type: UUIDType },
   }),
 });

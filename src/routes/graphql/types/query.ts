@@ -10,7 +10,7 @@ export const RootQueryType = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: () => ({
     memberTypes: {
-      type: new GraphQLNonNull(new GraphQLList(MemberType)),
+      type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(MemberType))),
       resolve: async (_, args, { prisma }: Context) => await prisma.memberType.findMany(),
     },
     memberType: {
@@ -37,7 +37,7 @@ export const RootQueryType = new GraphQLObjectType({
       type: PostType,
       args: { id: { type: new GraphQLNonNull(UUIDType) } },
       resolve: async (_, { id }: { id: string }, { prisma }) =>
-        await prisma.post.findUnique({ where: { id } }),
+        await prisma.post.findFirst({ where: { id } }),
     },
     profiles: {
       type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(ProfileType))),
