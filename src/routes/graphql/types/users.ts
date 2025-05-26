@@ -1,6 +1,7 @@
 import {
   GraphQLFieldConfigMap,
   GraphQLFloat,
+  GraphQLInputObjectType,
   GraphQLList,
   GraphQLNonNull,
   GraphQLObjectType,
@@ -20,6 +21,29 @@ type Users = {
   userSubscribedTo: Users[];
   subscribedToUser: Users[];
 };
+
+export type CreateUser = {
+  dto: {
+    name: string;
+    balance: number;
+  };
+};
+
+export const CreateUserInput = new GraphQLInputObjectType({
+  name: 'CreateUser',
+  fields: () => ({
+    name: { type: new GraphQLNonNull(GraphQLString) },
+    balance: { type: new GraphQLNonNull(GraphQLFloat) },
+  }),
+});
+
+export const ChangeUserInput = new GraphQLInputObjectType({
+  name: 'ChangeUser',
+  fields: () => ({
+    name: { type: new GraphQLNonNull(GraphQLString) },
+    balance: { type: new GraphQLNonNull(GraphQLFloat) },
+  }),
+});
 
 export const UsersType = new GraphQLObjectType<Users, Context>({
   name: 'User',
